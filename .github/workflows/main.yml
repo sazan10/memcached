@@ -1,0 +1,23 @@
+name: Linux Build
+on: push
+jobs:
+  build:
+    name: Build on Ubuntu
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        ref: 90f1d91bd0b3048fc2e3dffad8511559568b8ac2
+
+    - name: Install Dependencies 
+      run: | 
+        sudo apt-get install autotools-dev
+        sudo apt-get install automake
+        sudo apt-get install libevent-dev
+
+    - name: Run Build
+      run: |
+        ./autogen.sh
+        ./configure
+        make
