@@ -12,9 +12,7 @@ jobs:
 
     - name: Install Dependencies 
       run: | 
-        sudo apt-get install autotools-dev
-        sudo apt-get install automake
-        sudo apt-get install libevent-dev
+        sudo apt-get install autotools-dev automake libevent-dev
 
     - name: Run Build
       run: |
