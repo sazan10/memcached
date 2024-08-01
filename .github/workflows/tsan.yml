@@ -23,6 +23,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y autotools-dev automake libevent-dev
           
+
+      - name: Install ThreadSanitizer dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 18
       - name: Build repository 
         run: | 
           export CC=clang
@@ -35,16 +43,8 @@ jobs:
           sed -i 's/^CXX\s*=.*/CXX = clang++/' Makefile
           sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2 -g -gcolumn-info/' Makefile
           sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread -pie/' Makefile
-          sed -i 's/^CPP\s*=.*/CPP = clang -E/' Makefile
+          sed -i 's/^CPP\s*=.*/CPP = clang-18 -E/' Makefile
           make
-      - name: Install ThreadSanitizer dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 18
-
       
       - name: Run Google Thread Sanitizer (executables) (Linux)
         if: runner.os == 'Linux'
