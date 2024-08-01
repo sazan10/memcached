@@ -23,8 +23,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y autotools-dev automake libevent-dev
           
-      - name: check aslr value
-        run: sudo sysctl vm.mmap_rnd_bits
       - name: Install ThreadSanitizer dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -33,7 +31,8 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 18
       - name: Build repository 
-        run: | 
+        run: |
+          sudo sysctl vm.mmap_rnd_bits=32
           export CC=clang-18
           export CXX=clang++-18
           export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -g -gcolumn-info"
@@ -52,6 +51,7 @@ jobs:
         run: |
             #!/bin/bash
             set +e
+            sudo sysctl vm.mmap_rnd_bits=32
             DIRECTORY=$(pwd)
             
             is_executable() {
@@ -65,7 +65,7 @@ jobs:
             
             run_with_tsan() {
               local executable="$1"
-              TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable" 
+              TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"
               local exit_status=$?
             }
                           
