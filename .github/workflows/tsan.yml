@@ -39,7 +39,12 @@ jobs:
           make
       - name: Install ThreadSanitizer dependencies (Linux)
         if: runner.os == 'Linux'
-        run: sudo apt-get install -y clang-18 libclang-18-dev llvm-18 llvm-18-dev llvm-18-tools llvm-18-linker-tools
+        run: |
+          bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 18
+
       
       - name: Run Google Thread Sanitizer (executables) (Linux)
         if: runner.os == 'Linux'
