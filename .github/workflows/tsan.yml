@@ -23,7 +23,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y autotools-dev automake libevent-dev
           
-
+      - name: check aslr value
+        run: sudo sysctl vm.mmap_rnd_bits
       - name: Install ThreadSanitizer dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -73,13 +74,3 @@ jobs:
                 run_with_tsan "$file"
               fi
             done
-      - name: Upload log file as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-log
-          path: my-log.txt
-      - name: Download a single artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: my-log
-          path: my-log.txt
