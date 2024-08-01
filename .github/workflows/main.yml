@@ -1,4 +1,4 @@
-name: Run ThreadSanitizer
+name: Run ThreadSanitizer no 2 (old build)
 
 on:
   push:
