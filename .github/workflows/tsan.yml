@@ -1,6 +1,4 @@
 name: Run ThreadSanitizer
-
-
 on:
   push:
 
