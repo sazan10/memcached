@@ -25,7 +25,7 @@ jobs:
           
       - name: Build repository 
         run: | 
-          sudo sysctl vm.mmap_rnd_bits=32
+          sudo sysctl vm.mmap_rnd_bits=30
           export CC=clang
           export CXX=clang++
           export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -g -gcolumn-info"
@@ -48,7 +48,7 @@ jobs:
             #!/bin/bash
             set +e
             DIRECTORY=$(pwd)
-            sudo sysctl vm.mmap_rnd_bits=32
+            sudo sysctl vm.mmap_rnd_bits=30
             is_executable() {
               local file="$1"
               if file "$file" | grep -q 'ELF 64-bit'; then
