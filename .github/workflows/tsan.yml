@@ -1,7 +1,6 @@
 name: Run ThreadSanitizer
 on:
   push:
-
 jobs:
   run-tsan:
     name: '${{ matrix.os }}'
