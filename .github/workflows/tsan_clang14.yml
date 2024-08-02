@@ -1,5 +1,4 @@
 name: Run Tsan clang14 aslr 30
-
 on:
   push:
 
