@@ -32,7 +32,6 @@ jobs:
           sudo ./llvm.sh 18
       - name: Build repository 
         run: |
-          sudo sysctl vm.mmap_rnd_bits=30
           export CC=clang-18
           export CXX=clang++-18
           export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -g -gcolumn-info"
