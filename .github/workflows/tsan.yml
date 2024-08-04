@@ -61,7 +61,6 @@ jobs:
                 return 1
               fi
             }
-            
             run_with_tsan() {
               local executable="$1"
               TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"
