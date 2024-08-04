@@ -1,5 +1,4 @@
 name: Run ThreadSanitizer
-
 on:
   push:
 jobs:
