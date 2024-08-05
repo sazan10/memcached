@@ -51,7 +51,7 @@ jobs:
         run: |
             #!/bin/bash
             set +e
-            sudo sysctl vm.mmap_rnd_bits=30
+            sudo sysctl vm.mmap_rnd_bits
             DIRECTORY=$(pwd)
             
             is_executable() {
