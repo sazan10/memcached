@@ -1,4 +1,4 @@
-name: Run 2 Tsan clang14 aslr 30
+name: Run 2 Tsan clang14 aslr 28
 
 on:
   push:
