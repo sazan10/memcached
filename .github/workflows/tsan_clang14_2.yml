@@ -48,7 +48,7 @@ jobs:
             #!/bin/bash
             set +e
             DIRECTORY=$(pwd)
-            sudo sysctl vm.mmap_rnd_bits=30
+            sudo sysctl vm.mmap_rnd_bits
             is_executable() {
               local file="$1"
               if file "$file" | grep -q 'ELF 64-bit'; then
