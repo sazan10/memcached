@@ -48,6 +48,7 @@ jobs:
             #!/bin/bash
             set +e
             find . -name "*.profraw"
+            mkdir -p coverage_log
             DIRECTORY=$(pwd)
             sudo sysctl vm.mmap_rnd_bits
             is_executable() {
@@ -62,6 +63,7 @@ jobs:
             run_with_tsan() {
               local executable="$1"
               LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"
+              mv $executable.profraw coverage_log/
               local exit_status=$?
             }
                           
@@ -72,4 +74,4 @@ jobs:
                 run_with_tsan "$file"
               fi
             done
-            find . -name "*.profraw"
+            find ./coverage -name "*.profraw"
