@@ -59,13 +59,12 @@ jobs:
                 return 1
               fi
             }
-            
             run_with_tsan() {
               local executable="$1"
-              LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"
-              mv $executable.profraw coverage_log/
-              llvm-profdata-14 merge -sparse coverage_log/$executable.profraw -o coverage_log/$executable.profdata
-              llvm-cov-14 show $executable -instr-profile=coverage_log/$executable.profdata
+              LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
+              llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
+              llvm-cov-14 show $executable -instr-profile=$executable.profdata
+              mv $executable.profraw $executable.profdata coverage_log/
               local exit_status=$?
             }
                           
