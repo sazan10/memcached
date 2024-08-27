@@ -65,8 +65,8 @@ jobs:
               LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"
               mv $executable.profraw coverage_log/
               cd coverage_log
-              llvm-profdata merge -sparse $executable.profraw -o $executable.profdata
-              llvm-cov show ../$executable -instr-profile=$executable.profdata
+              llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
+              llvm-cov-14 show ../$executable -instr-profile=$executable.profdata
               cd ..
               local exit_status=$?
             }
@@ -84,8 +84,3 @@ jobs:
         with:
           name: my-artifact
           path: ./coverage_log
-      - uses: actions/download-artifact@v4
-        with:
-          path: ./coverage_log
-      - name: Display structure of downloaded files
-        run: ls -R ./coverage_log
