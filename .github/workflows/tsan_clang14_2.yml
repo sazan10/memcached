@@ -67,6 +67,8 @@ jobs:
                           
             find "$DIRECTORY" -type f -executable | while read -r file; do
               if is_executable "$file"; then
+                echo "executing $file"
+                find . -name "*.profdata"
                 run_with_tsan "$file"
               fi
             done
