@@ -47,6 +47,7 @@ jobs:
         run: |
             #!/bin/bash
             set +e
+            find . -name "*.profdata"
             DIRECTORY=$(pwd)
             sudo sysctl vm.mmap_rnd_bits
             is_executable() {
@@ -69,3 +70,4 @@ jobs:
                 run_with_tsan "$file"
               fi
             done
+            find . -name "*.profdata"
