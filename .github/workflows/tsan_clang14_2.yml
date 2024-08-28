@@ -23,8 +23,8 @@ jobs:
         run: | 
           export CC=clang
           export CXX=clang++
-          export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -g -gcolumn-info"
-          export LDFLAGS="-fsanitize=thread -pie"
+          export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -fsanitize-coverage=func,trace-pc-guard -g -gcolumn-info"
+          export LDFLAGS="-fsanitize=thread -fsanitize-coverage=func,trace-pc-guard -pie"
           ./autogen.sh
           ./configure
           #sudo sysctl vm.mmap_rnd_bits=30
@@ -50,7 +50,7 @@ jobs:
             is_executable() {
               local file="$1"
               if file "$file" | grep -q 'ELF 64-bit'; then
-                return 1
+                return 0
               else
                 return 1
               fi
@@ -59,7 +59,7 @@ jobs:
               local executable="$1"
               # LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
               # cov_html_dir = basename $executable
-              TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
+              TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2 coverage=1" timeout 10s "$executable"  
               # llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
               # llvm-cov-14 show $executable -instr-profile=$executable.profdata -format=html -o $executable-html  
               mv $executable-html coverage_log/
