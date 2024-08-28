@@ -30,8 +30,8 @@ jobs:
           #sudo sysctl vm.mmap_rnd_bits=30
           sed -i 's/^CC\s*=.*/CC = clang/' Makefile
           sed -i 's/^CXX\s*=.*/CXX = clang++/' Makefile
-          sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2 -fprofile-instr-generate -fcoverage-mapping -g -gcolumn-info/' Makefile
-          sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread -fprofile-instr-generate -fcoverage-mapping -pie/' Makefile
+          sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2 -fsanitize-coverage=trace-pc-guard -g -gcolumn-info/' Makefile
+          sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread -fsanitize-coverage=trace-pc-guard -pie/' Makefile
           sed -i 's/^CPP\s*=.*/CPP = clang -E/' Makefile
           make
       - name: Install ThreadSanitizer dependencies (Linux)
@@ -60,9 +60,10 @@ jobs:
             }
             run_with_tsan() {
               local executable="$1"
-              LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
-              llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
+              # LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
+              # llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
               # cov_html_dir = basename $executable
+              TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
               llvm-cov-14 show $executable -instr-profile=$executable.profdata -format=html -o $executable-html  
               mv $executable.profraw $executable-html $executable.profdata coverage_log/
               local exit_status=$?
