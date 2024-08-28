@@ -1,5 +1,4 @@
 name: Run 2 Tsan clang14 aslr 28
-
 on:
   push:
 jobs:
