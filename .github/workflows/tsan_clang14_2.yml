@@ -52,7 +52,7 @@ jobs:
             sudo sysctl vm.mmap_rnd_bits
             is_executable() {
               local file="$1"
-              if [ "$file" = "testapp" ]; then
+              if [ "$file" = "/home/runner/work/memcached/memcached/testapp" ]; then
                 return 0
               fi
               if file "$file" | grep -q 'ELF 64-bit'; then
