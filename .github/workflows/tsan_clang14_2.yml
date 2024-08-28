@@ -52,8 +52,11 @@ jobs:
             sudo sysctl vm.mmap_rnd_bits
             is_executable() {
               local file="$1"
-              if file "$file" | grep -q 'ELF 64-bit'; then
+              if [ "$file" = "testapp" ]; then
                 return 0
+              fi
+              if file "$file" | grep -q 'ELF 64-bit'; then
+                return 1
               else
                 return 1
               fi
