@@ -43,15 +43,12 @@ jobs:
         run: |
             #!/bin/bash
             set +e
-            find . -name "*.profraw"
+            find . -name "*.sancov"
             mkdir -p coverage_log
             DIRECTORY=$(pwd)
             sudo sysctl vm.mmap_rnd_bits
             is_executable() {
               local file="$1"
-              if [ "$file" = "/home/runner/work/memcached/memcached/testapp" ]; then
-                return 0
-              fi
               if file "$file" | grep -q 'ELF 64-bit'; then
                 return 1
               else
