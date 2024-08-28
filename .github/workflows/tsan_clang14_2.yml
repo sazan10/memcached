@@ -67,8 +67,7 @@ jobs:
               llvm-cov-14 show $executable -instr-profile=$executable.profdata -format=html -o $executable-html  
               mv $executable.profraw $executable-html $executable.profdata coverage_log/
               local exit_status=$?
-            }
-                          
+            }                   
             find "$DIRECTORY" -type f -executable | while read -r file; do
               if is_executable "$file"; then
                 echo "executing $file"
