@@ -75,7 +75,6 @@ jobs:
               fi
             done
             ls -l coverage_log/
-            
       - uses: actions/upload-artifact@v4
         with:
           name: my-artifact
