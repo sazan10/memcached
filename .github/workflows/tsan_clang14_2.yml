@@ -57,10 +57,11 @@ jobs:
               local executable="$1"
               # LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" "$executable"  
               # cov_html_dir = basename $executable
-              ASAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
+              # ASAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable" 
+              ASAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" "$executable"  
               # llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
               # llvm-cov-14 show $executable -instr-profile=$executable.profdata -format=html -o $executable-html  
-              mv $executable-html coverage_log/
+              # mv $executable-html coverage_log/
               local exit_status=$?
             }                   
             find "$DIRECTORY" -type f -executable | while read -r file; do
@@ -70,9 +71,9 @@ jobs:
                 run_with_tsan "$file"
               fi
             done
-            ls -l coverage_log/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: my-artifact
-          path: ./coverage_log
+      #       ls -l coverage_log/
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: my-artifact
+      #     path: ./coverage_log
 
