@@ -60,8 +60,8 @@ jobs:
               # LLVM_PROFILE_FILE="$executable.profraw" TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2" timeout 10s "$executable"  
               # cov_html_dir = basename $executable
               TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2 coverage=1" timeout 10s "$executable"  
-              # llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
-              # llvm-cov-14 show $executable -instr-profile=$executable.profdata -format=html -o $executable-html  
+              llvm-profdata-14 merge -sparse $executable.profraw -o $executable.profdata
+              llvm-cov-14 report TSAN_OPTIONS="force_seq_cst_atomics=1 exitcode=1 verbosity=2 coverage=1" timeout 10s "$executable"  -instr-profile=$executable.profdata -format=html -o $executable-html  
               mv $executable-html coverage_log/
               ls -l
               local exit_status=$?
