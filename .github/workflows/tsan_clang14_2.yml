@@ -30,8 +30,8 @@ jobs:
           #sudo sysctl vm.mmap_rnd_bits=30
           sed -i 's/^CC\s*=.*/CC = clang/' Makefile
           sed -i 's/^CXX\s*=.*/CXX = clang++/' Makefile
-          sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2  -fsanitize-coverage=control-flow -g -gcolumn-info/' Makefile
-          sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread  -fsanitize-coverage=control-flow -pie/' Makefile
+          sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2  -fprofile-instr-generate -fcoverage-mapping -g -gcolumn-info/' Makefile
+          sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread  -fprofile-instr-generate -fcoverage-mapping -pie/' Makefile
           sed -i 's/^CPP\s*=.*/CPP = clang -E/' Makefile
           make
       - name: Install ThreadSanitizer dependencies (Linux)
