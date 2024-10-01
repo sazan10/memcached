@@ -23,15 +23,15 @@ jobs:
         run: | 
           export CC=clang
           export CXX=clang++
-          export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -fsanitize-coverage=func,trace-pc-guard -g -gcolumn-info"
-          export LDFLAGS="-fsanitize=thread -fsanitize-coverage=func,trace-pc-guard -pie"
+          export CFLAGS="-fsanitize=thread -fPIE -fPIC -O2 -fsanitize-coverage=branch -g -gcolumn-info"
+          export LDFLAGS="-fsanitize=thread -fsanitize-coverage=branch -pie"
           ./autogen.sh
           ./configure
           #sudo sysctl vm.mmap_rnd_bits=30
           sed -i 's/^CC\s*=.*/CC = clang/' Makefile
           sed -i 's/^CXX\s*=.*/CXX = clang++/' Makefile
-          sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2 -fsanitize-coverage=func,trace-pc-guard -g -gcolumn-info/' Makefile
-          sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread -fsanitize-coverage=func,trace-pc-guard -pie/' Makefile
+          sed -i 's/^CFLAGS\s*=.*/& -fsanitize=thread -fPIE -fPIC -O2 -fsanitize-coverage=branch -g -gcolumn-info/' Makefile
+          sed -i 's/^LDFLAGS\s*=.*/& -fsanitize=thread -fsanitize-coverage=branch -pie/' Makefile
           sed -i 's/^CPP\s*=.*/CPP = clang -E/' Makefile
           make
       - name: Install ThreadSanitizer dependencies (Linux)
